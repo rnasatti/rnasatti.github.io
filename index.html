@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Riccardo Nasatti | Cybersecurity</title>
+<meta name="description" content="Studente di Computer Science and Engineering al Politecnico di Milano, specializzato in Cybersecurity. Rilevamento di minacce nel traffico DNS con euristiche, Machine Learning e LLM.">
+<link rel="icon" href="./img/icon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fa;--surface:#fff;--ink:#0f1b2d;--muted:#55627a;--line:#d5dce8;--accent:#1c4fd8;--threat:#c2410c;--ok:#0f766e;--navbg:#f4f6fa;--tr:#0f1b2d;--trline:#22314a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1220;--surface:#111c2f;--ink:#e8eef9;--muted:#93a1b8;--line:#22314a;--accent:#7aa2ff;--threat:#ff9166;--ok:#4fd1c0;--navbg:#0a1220;--tr:#0d1728;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0a1220;--surface:#111c2f;--ink:#e8eef9;--muted:#93a1b8;--line:#22314a;--accent:#7aa2ff;--threat:#ff9166;--ok:#4fd1c0;--navbg:#0a1220;--tr:#0d1728;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 "Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navbg);z-index:30}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--navbg);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;gap:22px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);text-decoration:none;margin-right:auto;letter-spacing:-.01em}
+nav a.l{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500}
+nav a.l:hover{color:var(--ink)}
+#theme{background:none;border:1px solid var(--line);color:var(--ink);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px}
+@media(max-width:640px){nav a.l{display:none}}
+.hero{padding:80px 24px 72px;display:flex;align-items:center;justify-content:space-between;gap:56px}
+.lg{width:34px;height:34px;border-radius:50%;object-fit:cover}
+.ph{flex:none}.ph img{display:block;width:260px;height:260px;border-radius:50%;object-fit:cover;border:1px solid var(--line);box-shadow:0 20px 50px -28px rgba(8,16,40,.5)}
+@media(max-width:900px){.hero{flex-direction:column-reverse;align-items:flex-start;gap:32px;padding-top:40px}.ph img{width:168px;height:168px}}
+h1{font-size:clamp(2.6rem,6vw,4.4rem);line-height:1.02;letter-spacing:-.035em;font-weight:800;margin:0 0 20px}
+.lead{font-size:1.22rem;color:var(--muted);max-width:34rem;margin:0 0 28px}
+.lead strong{color:var(--ink);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:11px 20px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+.btn.p{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn:hover{filter:brightness(1.08)}
+.trace{background:var(--tr);border:1px solid var(--trline);border-radius:12px;overflow:hidden;font:400 13px/1.5 "JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;color:#dfe7f5;box-shadow:0 20px 50px -24px rgba(8,16,40,.5)}
+.trace .bar{display:flex;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--trline);color:#8c9bb5;font-size:12px}
+.trace ul{list-style:none;margin:0;padding:6px 0}
+.trace li{display:grid;grid-template-columns:1fr auto;gap:12px;padding:7px 16px;opacity:0;animation:in .4s ease forwards paused;animation-delay:calc(var(--i)*.55s + .3s)}
+.trace.go li{animation-play-state:running}
+.trace li span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.v{font-weight:500}.ok{color:#4fd1c0}.bad{color:#ff9166}
+.trace li.bad-row{background:rgba(255,145,102,.07)}
+.trace .foot{padding:10px 16px;border-top:1px solid var(--trline);color:#8c9bb5;font-size:12px}
+@keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+section{padding:72px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.8rem,3.5vw,2.4rem);letter-spacing:-.025em;line-height:1.15;margin:0 0 14px;font-weight:800}
+.sub{color:var(--muted);max-width:42rem;margin:0 0 36px}
+h3{font-size:1.05rem;margin:0 0 8px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:800px){.grid2{grid-template-columns:1fr}}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:0 0 40px}
+.facts div{padding:18px 22px;border-right:1px solid var(--line)}
+.facts div:last-child{border-right:0}
+.facts dt{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.facts dd{margin:4px 0 0;color:var(--muted);font-size:14px}
+.flow{list-style:none;margin:0 0 40px;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0}
+.flow li{position:relative;padding:14px 18px;border:1px solid var(--line);background:var(--surface);margin-left:-1px;font-size:14.5px;line-height:1.4}
+.flow li b{display:block;font-size:15px}
+.flow li span{color:var(--muted)}
+.flow li.def{border-top:3px solid var(--accent)}
+.flow li.atk{border-top:3px solid var(--threat)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font-weight:600;color:var(--muted);font-size:14px}
+td:first-child{font-weight:600}
+.note{color:var(--muted);font-size:14px;margin:12px 0 0}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px;padding:0;list-style:none}
+.tags li{border:1px solid var(--line);background:var(--surface);padding:4px 12px;border-radius:999px;font-size:14px}
+.tags.t li{border-color:var(--threat);color:var(--threat);background:transparent}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px}
+.tl{list-style:none;margin:0;padding:0 0 0 22px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 28px}
+.tl li::before{content:"";position:absolute;left:-29px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.tl li:first-child::before{background:var(--accent)}
+.tl h3{margin:0}.tl p{margin:2px 0 0;color:var(--muted)}
+.tl small{color:var(--muted);font-size:14px}
+.contact{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
+.trace{max-width:680px;margin:0 0 44px}
+.tabs{display:inline-flex;border:1px solid var(--line);border-radius:10px;padding:4px;background:var(--surface);margin:0 0 18px;gap:4px}
+.tabs button{font:inherit;font-size:15px;font-weight:600;padding:8px 16px;border:0;border-radius:7px;background:none;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--bg)}
+.panel[hidden]{display:none}
+.pt{margin:0 0 14px}
+.bio p{max-width:44rem;margin:0 0 16px}
+.tags.lk li{padding:0}.tags.lk a{display:block;padding:4px 12px;color:var(--ink);text-decoration:none;border-radius:999px}.tags.lk li:hover{border-color:var(--accent)}.tags.lk a:hover{color:var(--accent)}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.trace li{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+<a class="brand" href="#top"><img class="lg" src="./img/icon.jpg" alt="" width="34" height="34" onerror="this.remove()">Riccardo Nasatti</a>
+<a class="l" href="#bio">Biografia</a><a class="l" href="#percorso">Percorso</a><a class="l" href="#tesi">Tesi</a><a class="l" href="#competenze">Competenze</a><a class="l" href="#contatti">Contatti</a>
+<button id="theme" aria-label="Cambia tema">◐</button>
+</nav></div></header>
+
+<main id="top">
+<div class="wrap hero">
+<div>
+<h1>Riccardo Nasatti</h1>
+<p class="lead">Studente di Computer Science and Engineering al Politecnico di Milano, con specializzazione in <strong>Cybersecurity</strong>.</p>
+<div class="cta">
+<a class="btn p" href="https://github.com/Nasatti/DNS-IDS-ML-LLM" target="_blank" rel="noopener">Vedi il progetto di tesi</a>
+<a class="btn" href="Riccardo_Nasatti_CV.pdf" target="_blank" rel="noopener">Scarica il CV</a>
+</div>
+</div>
+<div class="ph"><img src="./img/image.jpg" alt="Foto di Riccardo Nasatti" width="260" height="260" onerror="this.parentNode.remove()"></div>
+</div>
+
+<section id="bio"><div class="wrap bio">
+<h2>Biografia</h2>
+<p>Sono studente della laurea magistrale in Computer Science and Engineering al Politecnico di Milano, con specializzazione in Cybersecurity, e ho una laurea triennale in Ingegneria Informatica all’Università degli Studi di Bergamo. Il mio background unisce lo sviluppo software full-stack (applicazioni desktop e web) a un interesse crescente per la sicurezza di rete e il rilevamento delle minacce.</p>
+<p>Per la tesi triennale ho progettato e valutato un sistema per rilevare minacce e anomalie sul protocollo DNS, esplorando come l’analisi del traffico e le moderne tecniche di detection possano proteggere le infrastrutture di rete critiche.</p>
+<p>Oggi sto ampliando le competenze pratiche in sicurezza offensiva e difensiva, architettura dei sistemi e secure software engineering. Sono aperto a conoscere professionisti, ricercatori e altri studenti dell’ecosistema cybersecurity, a opportunità internazionali e a collaborazioni di tesi.</p>
+</div></section>
+
+<section id="percorso"><div class="wrap">
+<h2>Percorso</h2>
+<p class="sub">Dall’informatica di base alla sicurezza di rete.</p>
+<ol class="tl">
+<li><h3>Laurea magistrale in Computer Science and Engineering</h3><p>Politecnico di Milano, con specializzazione in Cybersecurity</p><small>In corso</small></li>
+<li><h3>Laurea triennale in Ingegneria Informatica</h3><p>Università degli Studi di Bergamo</p></li>
+<li><h3>Stage e collaborazione</h3><p>DDX srl</p></li>
+<li><h3>Diploma</h3><p>ITIS Paleocapa</p><small>2023</small></li>
+</ol>
+</div></section>
+
+<section id="tesi"><div class="wrap">
+<h2>Ogni connessione inizia con una query DNS. E se la query fosse un attacco?</h2>
+<p class="sub">Tesi triennale in Ingegneria Informatica (UniBG): progettazione e sviluppo di un sistema di rilevamento delle minacce nel traffico DNS con analisi euristica, Machine Learning e LLM, con relatore il Prof. Marco Abbadini e il gruppo UniBG SecLab.</p>
+
+<dl class="facts">
+<div><dt>96,13%</dt><dd>accuratezza e F1 di CatBoost, inferenza sotto il millisecondo</dd></div>
+<div><dt>20.000+</dt><dd>query uniche nel dataset dopo la deduplicazione</dd></div>
+<div><dt>4,5 M</dt><dd>domini benigni reali (DNS-OARC) usati come traffico di fondo</dd></div>
+</dl>
+
+<div style="margin-bottom:32px">
+<h3>Il problema</h3>
+<p>Bloccare il DNS significherebbe interrompere la rete, quindi il suo traffico viene spesso ispezionato poco. È un terreno ideale per esfiltrare dati, raggiungere i server C2 con domini generati algoritmicamente e ingannare gli utenti con domini che imitano brand legittimi.</p>
+<ul class="tags t"><li>DNS Tunneling</li><li>DGA</li><li>Typosquatting</li><li>Punycode</li></ul>
+</div>
+
+<div class="trace" role="img" aria-label="Esempio di classificazione di query DNS: domini benigni, DGA, tunneling e imposter">
+<div class="bar"><span>dns-ids / classificazione</span><span>modello: catboost</span></div>
+<ul>
+<li style="--i:0"><span>www.polimi.it</span><span class="v ok">benigno</span></li>
+<li style="--i:1"><span>mail.unibg.it</span><span class="v ok">benigno</span></li>
+<li class="bad-row" style="--i:2"><span>qzkx7vh2pwm4.top</span><span class="v bad">dga</span></li>
+<li class="bad-row" style="--i:3"><span>nbswy3dpeb3w64tmmq.t.example.net</span><span class="v bad">tunneling</span></li>
+<li class="bad-row" style="--i:4"><span>examp1e-bank.com</span><span class="v bad">imposter</span></li>
+<li class="bad-row" style="--i:5"><span>xn--exmple-cua.com</span><span class="v bad">imposter (punycode)</span></li>
+</ul>
+<div class="foot">Esempio illustrativo: ML in prima linea, LLM in background sui casi ambigui.</div>
+</div>
+
+<h3>Laboratorio isolato a due nodi</h3>
+<div class="tabs" role="tablist" aria-label="Nodo del laboratorio">
+<button role="tab" id="tab-atk" aria-selected="true" aria-controls="p-atk">Nodo attaccante</button>
+<button role="tab" id="tab-def" aria-selected="false" aria-controls="p-def" tabindex="-1">Nodo difensore</button>
+</div>
+<div class="panel" id="p-atk" role="tabpanel" aria-labelledby="tab-atk">
+<p class="pt"><b>Kali Linux (VM)</b>: un orchestratore stocastico in Python alterna traffico benigno e attacchi.</p>
+<ol class="flow">
+<li><b>Traffico benigno</b><span>4,5 milioni di domini reali (DNS-OARC)</span></li>
+<li class="atk"><b>DNS Tunneling</b><span>Esfiltrazione di dati in Base32</span></li>
+<li class="atk"><b>DGA</b><span>Domini generati algoritmicamente</span></li>
+<li class="atk"><b>DNS Imposter</b><span>Typosquatting e attacchi omografi in Punycode</span></li>
+</ol>
+</div>
+<div class="panel" id="p-def" role="tabpanel" aria-labelledby="tab-def" hidden>
+<p class="pt"><b>Ubuntu Server</b>: architettura a microservizi orchestrata con Docker Compose.</p>
+<ol class="flow">
+<li class="def"><b>Pi-hole</b><span>Resolver DNS</span></li>
+<li class="def"><b>Zeek</b><span>Log del traffico, letti in streaming</span></li>
+<li class="def"><b>TShark e Wireshark-web</b><span>Analisi dei pacchetti</span></li>
+<li class="def"><b>Pipeline Python</b><span>Lunghezza, entropia di Shannon, rapporti fonetici, consonanti contigue, QType</span></li>
+<li class="def"><b>MongoDB</b><span>Dataset per ML e LLM</span></li>
+</ol>
+</div>
+<p class="note" style="margin:-16px 0 40px">Rete isolata con firewall UFW in Default Deny, per prevenire il data poisoning.</p>
+
+<h3>Tre paradigmi a confronto</h3>
+<div class="tw"><table>
+<thead><tr><th>Approccio</th><th>Accuratezza</th><th>Precision Imposter</th><th>Spiegabilità</th><th>Latenza</th></tr></thead>
+<tbody>
+<tr><td>Regole euristiche</td><td>≈ 54,5%</td><td>molto bassa</td><td>alta</td><td>microsecondi</td></tr>
+<tr><td>CatBoost</td><td>96,1%</td><td>95%</td><td>bassa</td><td>&lt; 1 ms</td></tr>
+<tr><td>LLM locale (gpt-oss:120b)</td><td>78,3%</td><td>100% (recall 64%)</td><td>alta</td><td>diversi secondi</td></tr>
+</tbody></table></div>
+<p class="note">Risultati ottenuti in ambiente di laboratorio. Il LLM è stato valutato su 400 query, CatBoost sul test set da 3.024 query.</p>
+<h3 style="margin-top:36px">La conclusione</h3>
+<p style="max-width:44rem">Lo studio suggerisce un’architettura ibrida a due livelli: il Machine Learning filtra in tempo reale ad alta velocità, mentre un LLM in background valida e spiega in modo asincrono i casi ambigui.</p>
+<p style="margin-top:28px"><a class="btn p" href="https://github.com/Nasatti/DNS-IDS-ML-LLM" target="_blank" rel="noopener">Codice, tesi e risultati su GitHub</a></p>
+</div></section>
+
+<section id="competenze"><div class="wrap">
+<h2>Competenze</h2>
+<p class="sub">Dagli strumenti che uso per osservare il traffico ai linguaggi con cui costruisco gli strumenti.</p>
+<div class="skills">
+<div><h3>Sicurezza di rete</h3><ul class="tags lk"><li><a href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank" rel="noopener">DNS</a></li><li><a href="https://zeek.org/" target="_blank" rel="noopener">Zeek</a></li><li><a href="https://www.wireshark.org/" target="_blank" rel="noopener">Wireshark</a></li><li><a href="https://www.wireshark.org/docs/man-pages/tshark.html" target="_blank" rel="noopener">TShark</a></li><li><a href="https://pi-hole.net/" target="_blank" rel="noopener">Pi-hole</a></li><li><a href="https://www.kali.org/" target="_blank" rel="noopener">Kali Linux</a></li><li><a href="https://attack.mitre.org/" target="_blank" rel="noopener">Threat detection</a></li></ul></div>
+<div><h3>Machine Learning e LLM</h3><ul class="tags lk"><li><a href="https://catboost.ai/" target="_blank" rel="noopener">CatBoost</a></li><li><a href="https://scikit-learn.org/stable/modules/ensemble.html#random-forests" target="_blank" rel="noopener">Random Forest</a></li><li><a href="https://scikit-learn.org/stable/modules/neural_networks_supervised.html" target="_blank" rel="noopener">MLP</a></li><li><a href="https://ollama.com/" target="_blank" rel="noopener">Ollama</a></li><li><a href="https://en.wikipedia.org/wiki/Feature_engineering" target="_blank" rel="noopener">Feature engineering</a></li></ul></div>
+<div><h3>Sviluppo</h3><ul class="tags lk"><li><a href="https://www.python.org/" target="_blank" rel="noopener">Python</a></li><li><a href="https://isocpp.org/" target="_blank" rel="noopener">C++</a></li><li><a href="https://learn.microsoft.com/dotnet/csharp/" target="_blank" rel="noopener">C#</a></li><li><a href="https://dev.java/" target="_blank" rel="noopener">Java</a></li><li><a href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" rel="noopener">JavaScript</a></li><li><a href="https://www.php.net/" target="_blank" rel="noopener">PHP</a></li><li><a href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noopener">HTML</a></li><li><a href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noopener">CSS</a></li></ul></div>
+<div><h3>Sistemi e dati</h3><ul class="tags lk"><li><a href="https://www.kernel.org/" target="_blank" rel="noopener">Linux</a></li><li><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener">Docker Compose</a></li><li><a href="https://www.mongodb.com/" target="_blank" rel="noopener">MongoDB</a></li><li><a href="https://www.mysql.com/" target="_blank" rel="noopener">MySQL</a></li></ul></div>
+</div>
+</div></section>
+
+<section id="contatti"><div class="wrap">
+<h2>Contatti</h2>
+<p class="sub">Cerco opportunità di stage, tesi e collaborazione nella cybersecurity. Scrivimi o trovami online.</p>
+<div class="contact">
+<a class="btn p" href="mailto:riccardonasatti@gmail.com">riccardonasatti@gmail.com</a>
+<a class="btn" href="https://www.linkedin.com/in/riccardo-nasatti/" target="_blank" rel="noopener">LinkedIn</a>
+<a class="btn" href="https://github.com/Nasatti" target="_blank" rel="noopener">GitHub</a>
+</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">© <span id="y"></span> Riccardo Nasatti</div></footer>
+
+<script>
+(function(){
+var r=document.documentElement,b=document.getElementById("theme");
+try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")r.setAttribute("data-theme",t)}catch(e){}
+b.addEventListener("click",function(){
+var dark=r.getAttribute("data-theme")==="dark"||(!r.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme: dark)").matches);
+var n=dark?"light":"dark";r.setAttribute("data-theme",n);
+try{localStorage.setItem("theme",n)}catch(e){}
+});
+document.getElementById("y").textContent=new Date().getFullYear();
+var tabs=document.querySelectorAll('[role="tab"]');
+tabs.forEach(function(t){t.addEventListener("click",function(){
+tabs.forEach(function(o){var on=o===t;o.setAttribute("aria-selected",on);o.tabIndex=on?0:-1;document.getElementById(o.getAttribute("aria-controls")).hidden=!on});
+})});
+var tr=document.querySelector(".trace");
+if("IntersectionObserver" in window){new IntersectionObserver(function(e,o){if(e[0].isIntersecting){tr.classList.add("go");o.disconnect()}},{threshold:.4}).observe(tr)}else{tr.classList.add("go")}
+if("IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+var sel=".hero>div>*,section h2,section .sub,section h3,section p,.facts,.tw,.tabs,.tags,.tl li,.skills>div,.contact";
+var els=[].filter.call(document.querySelectorAll(sel),function(e){return !e.closest(".panel,.trace")&&!(e.parentElement&&e.parentElement.closest(sel))});
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+els.forEach(function(e){e.classList.add("rv");if(e.matches(".tl li,.skills>div")){e.style.transitionDelay=([].indexOf.call(e.parentElement.children,e)*70)+"ms"}io.observe(e)});
+}
+})();
+</script>
+</body>
+</html>
